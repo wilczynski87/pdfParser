@@ -41,7 +41,7 @@ public class InvoiceController {
             @JsonProperty("mainAccount") BankAccountEnum mainAccount,
             @JsonProperty("taxAccount") BankAccountEnum taxAccount,
             @JsonProperty("client") ClientDto client,
-            @JsonProperty("productsDto") ProductDto product
+            @JsonProperty("productsDto") List<ProductDto> product
             ){}
 
     public List<InvoiceDto> getInvoice(String nip) {
