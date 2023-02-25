@@ -1,16 +1,12 @@
 package com.invoice.pdf_parser.data;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 
-import org.springframework.core.serializer.Serializer;
+import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class ProductDto implements Serializer {
+// @JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@Data
+public class ProductDto{
     private Long id;
     private ProductEnum productEnum;
     private BigDecimal unitPrice;
@@ -19,9 +15,12 @@ public class ProductDto implements Serializer {
     private BigDecimal vatAmout;
     private BigDecimal price;
     private BigDecimal priceWithVat;
-    @Override
-    public void serialize(Object object, OutputStream outputStream) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serialize'");
+
+    private Long getId() {
+        return this.id;
+    }
+
+    private void setId(Long id) {
+        this.id = id;
     }
 }

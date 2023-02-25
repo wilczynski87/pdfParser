@@ -1,24 +1,21 @@
 package com.invoice.pdf_parser.data;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import lombok.Data;
 
-import org.springframework.core.serializer.Serializer;
+// @JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@Data
+public class ClientDto {
+	private long id;
+	private String name;
+	private String address;
+	private String nip;
+	private String email;
+	
+    private Long getId() {
+        return this.id;
+    }
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class ClientDto implements Serializer {
-	long id;
-	String name;
-	String address;
-	String nip;
-	String email;
-    // private Set<ProductDto> products;
-	@Override
-	public void serialize(Object object, OutputStream outputStream) throws IOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'serialize'");
-	}
+    private void setId(Long id) {
+        this.id = id;
+    }
 }

@@ -1,18 +1,10 @@
 package com.invoice.pdf_parser.data;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.core.serializer.Serializer;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class InvoiceDto implements Serializer {
+public class InvoiceDto {
         private Long id;
         private String number;
         private LocalDate date;
@@ -22,10 +14,93 @@ public class InvoiceDto implements Serializer {
         private BankAccountEnum mainAccount;
         private BankAccountEnum taxAccount;
         private ClientDto client;
-        private List<ProductDto> products;
-        @Override
-        public void serialize(Object object, OutputStream outputStream) throws IOException {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'serialize'");
+        private List<ProductDto> productsDto;
+        
+        public String getNumber() {
+                return this.number;
         }
+
+        public void setNumber(String number) {
+                this.number = number;
+        }
+
+        public LocalDate getDate() {
+                return this.date;
+        }
+
+        public void setDate(LocalDate date) {
+                this.date = date;
+        }
+
+        public BigDecimal getTax() {
+                return this.tax;
+        }
+
+        public void setTax(BigDecimal tax) {
+                this.tax = tax;
+        }
+
+        public BigDecimal getPrice() {
+                return this.price;
+        }
+
+        public void setPrice(BigDecimal price) {
+                this.price = price;
+        }
+
+        public BigDecimal getPriceWithTax() {
+                return this.priceWithTax;
+        }
+
+        public void setPriceWithTax(BigDecimal priceWithTax) {
+                this.priceWithTax = priceWithTax;
+        }
+
+        public BankAccountEnum getMainAccount() {
+                return this.mainAccount;
+        }
+
+        public void setMainAccount(BankAccountEnum mainAccount) {
+                this.mainAccount = mainAccount;
+        }
+
+        public BankAccountEnum getTaxAccount() {
+                return this.taxAccount;
+        }
+
+        public void setTaxAccount(BankAccountEnum taxAccount) {
+                this.taxAccount = taxAccount;
+        }
+
+        public ClientDto getClient() {
+                return this.client;
+        }
+
+        public void setClient(ClientDto client) {
+                this.client = client;
+        }
+
+        public List<ProductDto> getProductsDto() {
+                return this.productsDto;
+        }
+
+        public void setProductsDto(List<ProductDto> productsDto) {
+                this.productsDto = productsDto;
+        }
+
+        @Override
+        public String toString() {
+                return "{" +
+                        "number='" + getNumber() + "'" +
+                        ", date='" + getDate() + "'" +
+                        ", tax='" + getTax() + "'" +
+                        ", price='" + getPrice() + "'" +
+                        ", priceWithTax='" + getPriceWithTax() + "'" +
+                        ", mainAccount='" + getMainAccount() + "'" +
+                        ", taxAccount='" + getTaxAccount() + "'" +
+                        ", client='" + getClient() + "'" +
+                        ", productsDto='" + getProductsDto() + "'" +
+                        "}";
+        }
+        
 }
