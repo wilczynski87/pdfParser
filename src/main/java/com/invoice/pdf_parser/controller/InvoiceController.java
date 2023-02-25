@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,11 +23,16 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.invoice.pdf_parser.data.InvoiceDto;
+import com.invoice.pdf_parser.service.InvoiceService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 public class InvoiceController {
+
+  @Autowired
+  InvoiceService invoiceService;
 
   private record invoiceNip(String nip, Long month, Long year) {
   }
@@ -54,8 +60,8 @@ public class InvoiceController {
 
   @GetMapping("getInvoices/{nip}")
   public String requestInvoices(@PathVariable("nip") String nip) {
-    getInvoice(nip);
-    return "Request success";
+    var invoice = invoiceService.chooseInvoice(getInvoice(nip));
+    return "Request success, invoice nr: " + invoice.getNumber();
   }
 
   @GetMapping("/getInvoiceById/{id}")

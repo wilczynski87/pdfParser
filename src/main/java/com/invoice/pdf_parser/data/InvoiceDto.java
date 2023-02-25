@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public class InvoiceDto {
-        private Long id;
+public class InvoiceDto implements Comparable<InvoiceDto>{
         private String number;
         private LocalDate date;
         private BigDecimal tax;
@@ -101,6 +100,13 @@ public class InvoiceDto {
                         ", client='" + getClient() + "'" +
                         ", productsDto='" + getProductsDto() + "'" +
                         "}";
+        }
+
+        @Override
+        public int compareTo(InvoiceDto otherInvoice) {
+                return Integer.compare(
+                        Integer.parseInt(this.getNumber().substring(0, 1)), 
+                        Integer.parseInt(otherInvoice.getNumber().substring(0, 1)));
         }
         
 }
