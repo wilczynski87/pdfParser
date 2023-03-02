@@ -1,11 +1,7 @@
 package com.invoice.pdf_parser.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,18 +10,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.invoice.pdf_parser.data.InvoiceDto;
 import com.invoice.pdf_parser.service.InvoiceService;
+import com.invoice.pdf_parser.service.JasperService;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @RestController
@@ -33,6 +28,9 @@ public class InvoiceController {
 
   @Autowired
   InvoiceService invoiceService;
+
+  @Autowired
+  JasperService jasperService;
 
   private record invoiceNip(String nip, Long month, Long year) {
   }
@@ -59,9 +57,24 @@ public class InvoiceController {
   }
 
   @GetMapping("getInvoices/{nip}")
-  public String requestInvoices(@PathVariable("nip") String nip) {
+  public ResponseEntity<byte[]> requestInvoices(@PathVariable("nip") String nip) {
     var invoice = invoiceService.chooseInvoice(getInvoice(nip));
-    return "Request success, invoice nr: " + invoice.getNumber();
+    try {
+      // jasperService.generateReport(invoice);
+
+      byte[] data = jasperService.generateReport(invoice);
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
+
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
+
+    } catch (FileNotFoundException | JRException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    log.error("Request success, invoice nr: {}", invoice.getNumber());
+    return  null;
   }
 
   @GetMapping("/getInvoiceById/{id}")

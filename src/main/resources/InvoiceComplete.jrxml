@@ -58,21 +58,21 @@
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
-	<queryString language="SQL">
+	<!-- <queryString language="SQL">
 		<![CDATA[select * 
 from invoice i 
 join product p on i.client_id = p.client_id
 join client c on i.client_id = c.id  
 where i."number" like '3/2/2023']]>
-	</queryString>
-	<field name="date" class="java.sql.Date">
+	</queryString> -->
+	<field name="date" class="java.time.LocalDate">
 		<property name="com.jaspersoft.studio.field.name" value="date"/>
 		<property name="com.jaspersoft.studio.field.label" value="date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
-	<field name="main_account" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="main_account"/>
-		<property name="com.jaspersoft.studio.field.label" value="main_account"/>
+	<field name="mainAccount" class="com.invoice.pdf_parser.data.BankAccountEnum">
+		<property name="com.jaspersoft.studio.field.name" value="mainAccount"/>
+		<property name="com.jaspersoft.studio.field.label" value="mainAccount"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
 	<field name="number" class="java.lang.String">
@@ -85,9 +85,9 @@ where i."number" like '3/2/2023']]>
 		<property name="com.jaspersoft.studio.field.label" value="price"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
-	<field name="price_with_tax" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="price_with_tax"/>
-		<property name="com.jaspersoft.studio.field.label" value="price_with_tax"/>
+	<field name="priceWithTax" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="priceWithTax"/>
+		<property name="com.jaspersoft.studio.field.label" value="priceWithTax"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
 	<field name="tax" class="java.math.BigDecimal">
@@ -95,34 +95,24 @@ where i."number" like '3/2/2023']]>
 		<property name="com.jaspersoft.studio.field.label" value="tax"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
-	<field name="tax_account" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="tax_account"/>
-		<property name="com.jaspersoft.studio.field.label" value="tax_account"/>
+	<field name="taxAccount" class="com.invoice.pdf_parser.data.BankAccountEnum">
+		<property name="com.jaspersoft.studio.field.name" value="taxAccount"/>
+		<property name="com.jaspersoft.studio.field.label" value="taxAccount"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="invoice"/>
 	</field>
-	<field name="COLUMN_10" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
+	<!-- <field name="priceWithVat" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="priceWithVat"/>
+		<property name="com.jaspersoft.studio.field.label" value="priceWithVat"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
-	</field>
-	<field name="COLUMN_11" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="price"/>
-		<property name="com.jaspersoft.studio.field.label" value="price"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
-	</field>
-	<field name="price_with_vat" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="price_with_vat"/>
-		<property name="com.jaspersoft.studio.field.label" value="price_with_vat"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
-	</field>
-	<field name="quantity" class="java.lang.Float">
+	</field> -->
+	<!-- <field name="quantity" class="java.lang.Float">
 		<property name="com.jaspersoft.studio.field.name" value="quantity"/>
 		<property name="com.jaspersoft.studio.field.label" value="quantity"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="unit_price" class="java.lang.Float">
-		<property name="com.jaspersoft.studio.field.name" value="unit_price"/>
-		<property name="com.jaspersoft.studio.field.label" value="unit_price"/>
+	<field name="unitPrice" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="unitPrice"/>
+		<property name="com.jaspersoft.studio.field.label" value="unitPrice"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
 	<field name="uom" class="java.lang.String">
@@ -130,32 +120,27 @@ where i."number" like '3/2/2023']]>
 		<property name="com.jaspersoft.studio.field.label" value="uom"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="vat_amout" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="vat_amout"/>
-		<property name="com.jaspersoft.studio.field.label" value="vat_amout"/>
+	<field name="vatAmout" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="vatAmout"/>
+		<property name="com.jaspersoft.studio.field.label" value="vatAmout"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="vat_rate" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="vat_rate"/>
-		<property name="com.jaspersoft.studio.field.label" value="vat_rate"/>
+	<field name="vatRate" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="vatRate"/>
+		<property name="com.jaspersoft.studio.field.label" value="vatRate"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="COLUMN_18" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="client_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="client_id"/>
+	<field name="productEnum" class="com.invoice.pdf_parser.data.ProductEnum">
+		<property name="com.jaspersoft.studio.field.name" value="productEnum"/>
+		<property name="com.jaspersoft.studio.field.label" value="productEnum"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
-	</field>
-	<field name="product_enum" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="product_enum"/>
-		<property name="com.jaspersoft.studio.field.label" value="product_enum"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
-	</field>
-	<field name="COLUMN_21" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
+	</field> -->
+	<field name="client" class="com.invoice.pdf_parser.data.ClientDto">
+		<property name="com.jaspersoft.studio.field.name" value="client"/>
+		<property name="com.jaspersoft.studio.field.label" value="client"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
 	</field>
-	<field name="address" class="java.lang.String">
+	<!-- <field name="address" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="address"/>
 		<property name="com.jaspersoft.studio.field.label" value="address"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
@@ -174,7 +159,7 @@ where i."number" like '3/2/2023']]>
 		<property name="com.jaspersoft.studio.field.name" value="nip"/>
 		<property name="com.jaspersoft.studio.field.label" value="nip"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
-	</field>
+	</field> -->
 	<title>
 		<band height="229" splitType="Stretch">
 			<staticText>
@@ -234,7 +219,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{date}.toLocalDate()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="430" y="30" width="119" height="20" uuid="5f0fca3e-84a1-4bb1-be2a-4f010f1514b4">
@@ -264,7 +249,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{main_account}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mainAccount}.getAccountNumber()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="205" y="91" width="344" height="15" uuid="61ec090d-a884-4913-bb9c-f9698476b084"/>
@@ -277,7 +262,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tax_account}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{taxAccount}.getAccountNumber()]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="0" y="162" width="180" height="20" uuid="a1e6c91f-9759-4d66-9158-02f5ddebb712">
@@ -286,7 +271,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{client}.getName()]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="0" y="182" width="180" height="20" uuid="1a1c0e18-82a1-4821-9c2c-5d46448ae98c">
@@ -295,7 +280,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{client}.getAddress()]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="25" y="202" width="155" height="20" uuid="a07f3dc9-1ed3-46d7-91f7-4645dfe0427d">
@@ -304,7 +289,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nip}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{client}.getNip()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Column header" positionType="Float" x="0" y="202" width="25" height="20" forecolor="#000000" uuid="42b937b8-a2e6-4ea0-a162-f44fa1c3a1f8">
@@ -404,14 +389,14 @@ where i."number" like '3/2/2023']]>
 	</columnHeader>
 	<detail>
 		<band height="74">
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<!-- <textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="30" y="0" width="150" height="20" uuid="db5cd913-c919-4bbe-bb3a-31e32d94a092">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b866ef7d-3b96-4113-a6fc-88718515c3f0"/>
 				</reportElement>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{product_enum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{productEnum}.getJM()]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="310" y="0" width="40" height="20" uuid="ab49b266-4b6e-412f-ade3-ac5841a64789">
@@ -447,7 +432,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="350" y="0" width="40" height="20" uuid="29a53e7a-16fc-4802-982c-4abf63fd280e">
@@ -456,7 +441,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{vat_rate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vatRate}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="390" y="0" width="55" height="20" uuid="7e4da87a-d4bf-44e7-acff-73fae0fa0bd8">
@@ -465,17 +450,17 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{vat_amout}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<textFieldExpression><![CDATA[$F{vatAmout}]]></textFieldExpression>
+			</textField> -->
+			<!-- <textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="445" y="0" width="65" height="20" uuid="28ad4374-203c-4c3e-949b-38ed7af645fa">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22311c7f-cd04-4442-aa9c-862dfd917e68"/>
 				</reportElement>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{price_with_vat}]]></textFieldExpression>
-			</textField>
+				<textFieldExpression><![CDATA[$F{priceWithVat}]]></textFieldExpression>
+			</textField> -->
 			<textField>
 				<reportElement x="0" y="0" width="30" height="20" uuid="b38674cd-10c2-4990-b219-353627d6e33f"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
@@ -516,7 +501,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[price_with_tax]]></text>
+				<text><![CDATA[priceWithTax]]></text>
 			</staticText>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="405" y="21" width="55" height="20" uuid="083ca461-cc11-4f31-9b19-67de5e4c6b76">
@@ -525,7 +510,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{price_with_tax}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{priceWithTax}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="5" width="344" height="15" uuid="45b7b5b2-bd47-4090-9204-766264bc15c4"/>
@@ -538,7 +523,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{main_account}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mainAccount}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="41" width="344" height="15" uuid="a3d655b4-238f-4483-8af8-846f84dadb46"/>
@@ -551,7 +536,7 @@ where i."number" like '3/2/2023']]>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tax_account}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{taxAccount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

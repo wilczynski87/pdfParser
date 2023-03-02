@@ -13,4 +13,8 @@ public enum BankAccountEnum {
         this.bankName = bankName;
         this.accountNumber = accountNumber;
     }
+
+    public String getAccountNumber() {
+        return this.accountNumber;
+    }
 }
