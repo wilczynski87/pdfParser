@@ -2,7 +2,7 @@ package com.invoice.pdf_parser.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class InvoicePdf {
     private String number;
@@ -67,6 +67,11 @@ public class InvoicePdf {
 
     public void setTaxAccount(BankAccountEnum taxAccount) {
             this.taxAccount = taxAccount;
+    }
+
+    public String getDateFormated() {
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        return this.date.format(formatters);
     }
     
 }
