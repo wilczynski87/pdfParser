@@ -1,5 +1,6 @@
 package com.invoice.pdf_parser.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +18,18 @@ public class InvoiceService {
         return invoiceList.stream()
             .max(Comparable::compareTo)
             .orElse(new InvoiceDto());
+    }
+
+    public Long getCurrentMonth(Long month) {
+        return month == null || month > 12l || month < 1
+        ? Long.valueOf(LocalDate.now().getMonthValue())
+        : month;
+    }
+
+    public Long getCurrentYear(Long year) {
+        return year == null 
+        ? Long.valueOf(LocalDate.now().getYear()) 
+        : year;
     }
     
 }

@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -35,8 +37,9 @@ public class InvoiceController {
   private record invoiceNip(String nip, Long month, Long year) {
   }
 
-  public List<InvoiceDto> getInvoice(String nip) {
-    log.info("get Invoice by NIP ");
+  public List<InvoiceDto> getInvoice(String nip, Long month, Long year) {
+
+    log.info("get Invoice by NIP: {}", nip);
 
     final String uri= "http://localhost:8081/getInvoices";
 
@@ -45,7 +48,7 @@ public class InvoiceController {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<invoiceNip> entity = new HttpEntity<>(new invoiceNip("1234567890", 2l, 2023l), headers);
+    HttpEntity<invoiceNip> entity = new HttpEntity<>(new invoiceNip(nip, invoiceService.getCurrentMonth(month), invoiceService.getCurrentYear(year)), headers);
 
     ResponseEntity<List<InvoiceDto>> response = restTemplate.exchange(
       uri, HttpMethod.POST, entity, new ParameterizedTypeReference<List<InvoiceDto>>(){});
@@ -58,7 +61,7 @@ public class InvoiceController {
 
   @GetMapping("getInvoices/{nip}")
   public ResponseEntity<byte[]> requestInvoices(@PathVariable("nip") String nip) {
-    var invoice = invoiceService.chooseInvoice(getInvoice(nip));
+    var invoice = invoiceService.chooseInvoice(getInvoice(nip, invoiceService.getCurrentMonth(null), invoiceService.getCurrentYear(null)));
     try {
       // jasperService.generateReport(invoice);
 
@@ -112,6 +115,26 @@ public class InvoiceController {
     String productsJson = response.getBody();
     
     return productsJson;
+  }
+
+  // todo main controller to getting invoice data + generate invoice pdf + send invoice to Client
+  @PostMapping("/sendInvoice")
+  public ResponseEntity<byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
+    try {
+
+      byte[] data = jasperService.generateReport(invoiceDto);
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
+
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
+
+    } catch (FileNotFoundException | JRException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    log.error("Request success, invoice nr: {}", invoiceDto.getNumber());
+    return  null;
   }
     
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.invoice.pdf_parser.data.InvoiceDto;
+import com.invoice.pdf_parser.pdf_mapper.PdfMapper;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -42,12 +43,15 @@ public class JasperService {
 			JRSaver.saveObject(jasperReport, "invoice.jasper"); // baeldung
 			// Get your data source
 			// JREmptyDataSource source = new JREmptyDataSource();
-			List<InvoiceDto> invoiceList = new ArrayList<>();
-			invoiceList.add(invoiceDto);
-			JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(invoiceList);
+			var invoicePdf = PdfMapper.INSTANCE.invoiceDtoToInvoicePdf(invoiceDto);
+			var productListPdf = invoiceDto.getProductsDto();
+			var clientPdf = invoiceDto.getClient();
+			JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(productListPdf);
 			// Add parameters
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("createdBy", "JavaHelper.org");
+			parameters.put("invoice", invoicePdf);
+			parameters.put("client", clientPdf);
 			// Fill the report
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, source);
 			// Export the report to a PDF file
