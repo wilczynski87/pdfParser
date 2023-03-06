@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import com.invoice.pdf_parser.data.EmailDetails;
 import com.invoice.pdf_parser.data.InvoiceDto;
+import com.invoice.pdf_parser.service.EmailService;
 import com.invoice.pdf_parser.service.InvoiceService;
 import com.invoice.pdf_parser.service.JasperService;
 
@@ -33,6 +36,9 @@ public class InvoiceController {
 
   @Autowired
   JasperService jasperService;
+
+  @Autowired
+  EmailService emailService;
 
   private record invoiceNip(String nip, Long month, Long year) {
   }
@@ -126,6 +132,15 @@ public class InvoiceController {
 
       HttpHeaders headers = new HttpHeaders();
       headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
+
+      var emailDetails = new EmailDetails();
+      emailDetails.setRecipient("wilczynski87@gmail.com");
+      emailDetails.setMsgBody("Dupa Dupa dupeczka...");
+      emailDetails.setSubject("Dupa cycki!");
+      emailDetails.setAttachmentByte(data);
+      var result = emailService.sendMailWithAttachment(emailDetails);
+
+      log.info(result);
 
       return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
 
