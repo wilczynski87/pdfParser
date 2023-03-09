@@ -11,7 +11,5 @@ public class EmailDetails {
     private String recipient;
     private String msgBody;
     private String subject;
-    private String attachment;
     private byte[] attachmentByte;
-    private byte[] msgBodyByte;
 }

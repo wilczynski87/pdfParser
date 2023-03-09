@@ -97,20 +97,10 @@ public class JasperService {
 			// Export the report to a PDF file
 			JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
 
-			// Exporting file
-			// OutputStream outputStream = new ObjectOutputStream(null);
-			// JRPdfExporter exporter = new JRPdfExporter();
-			// exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			// exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
-			// SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-			// configuration.setMetadataAuthor("Petter");  //why not set some config as we like
-			// exporter.setConfiguration(configuration);
-			// exporter.exportReport();
-
 			log.info("PDF File Generated");
-			// from working mail
-			// JasperExportManager.exportReportToPdfFile(jasperPrint, filePath + fileName + fileFormatPDF);
+
 			return JasperExportManager.exportReportToPdf(jasperPrint);
+			
 		} catch (RuntimeException e) {
             log.error("Exceptuin " + e);
         }

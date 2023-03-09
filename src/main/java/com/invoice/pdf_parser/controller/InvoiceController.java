@@ -127,16 +127,16 @@ public class InvoiceController {
   @PostMapping("/sendInvoice")
   public ResponseEntity<byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
     try {
-
+      // creating invoice
       byte[] data = jasperService.generateReport(invoiceDto);
 
       HttpHeaders headers = new HttpHeaders();
       headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
 
       var emailDetails = new EmailDetails();
-      emailDetails.setRecipient("wilczynski87@gmail.com");
-      emailDetails.setMsgBody("Dupa Dupa dupeczka...");
-      emailDetails.setSubject("Dupa cycki!");
+      emailDetails.setRecipient(invoiceDto.getClient().getEmail());
+      emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
+      emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
       emailDetails.setAttachmentByte(data);
       var result = emailService.sendMailWithAttachment(emailDetails);
 
@@ -145,11 +145,9 @@ public class InvoiceController {
       return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
 
     } catch (FileNotFoundException | JRException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+      throw new RuntimeException("Mail have not been send, exception in " + e);
     }
-    log.error("Request success, invoice nr: {}", invoiceDto.getNumber());
-    return  null;
   }
     
 }

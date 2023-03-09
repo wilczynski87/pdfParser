@@ -24,31 +24,6 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}") private String sender;
 
     @Override
-    public String sendSimpleMail(EmailDetails details) {
-        try {
- 
-            // Creating a simple mail message
-            SimpleMailMessage mailMessage
-                = new SimpleMailMessage();
- 
-            // Setting up necessary details
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
- 
-            // Sending the mail
-            javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
-        }
- 
-        // Catch block to handle the exceptions
-        catch (Exception e) {
-            return "Error while Sending Mail";
-        }
-    }
-
-    @Override
     public String sendMailWithAttachment(EmailDetails details) {
         // Creating a mime message
         MimeMessage mimeMessage
@@ -64,15 +39,10 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper.setText(details.getMsgBody());
             mimeMessageHelper.setSubject(details.getSubject());
 
-            if(details.getAttachment() == null && details.getAttachmentByte() == null) return "there is no attachement";
- 
-            // Adding the attachment
-            // FileSystemResource file
-            //     = new FileSystemResource(
-            //         new File(details.getAttachment()));
+            if(details.getAttachmentByte() == null) return "There is no attachement";
 
             mimeMessageHelper.addAttachment(
-                "dupa.pdf", new ByteArrayResource(details.getAttachmentByte()));
+                "fakturaPlac.pdf", new ByteArrayResource(details.getAttachmentByte()));
  
             // Sending the mail
             javaMailSender.send(mimeMessage);
@@ -81,9 +51,9 @@ public class EmailServiceImpl implements EmailService {
  
         // Catch block to handle MessagingException
         catch (Exception e) {
- 
+
             // Display message when exception occurred
-            return "Error while sending mail!!!";
+            return "Error while sending mail!!! " + e;
         }
         
     }
