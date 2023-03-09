@@ -124,11 +124,39 @@ public class InvoiceController {
   }
 
   // todo main controller to getting invoice data + generate invoice pdf + send invoice to Client
+  // @PostMapping("/sendInvoice")
+  // public ResponseEntity<byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
+  //   try {
+  //     // creating invoice
+  //     byte[] data = jasperService.generateReport(invoiceDto);
+
+  //     HttpHeaders headers = new HttpHeaders();
+  //     headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
+
+  //     var emailDetails = new EmailDetails();
+  //     emailDetails.setRecipient(invoiceDto.getClient().getEmail());
+  //     emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
+  //     emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
+  //     emailDetails.setAttachmentByte(data);
+  //     var result = emailService.sendMailWithAttachment(emailDetails);
+
+  //     log.info(result);
+
+  //     return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
+
+  //   } catch (FileNotFoundException | JRException e) {
+  //     e.printStackTrace();
+  //     throw new RuntimeException("Mail have not been send, exception in " + e);
+  //   }
+  // }
+
   @PostMapping("/sendInvoice")
-  public ResponseEntity<byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
+  public ResponseEntity<String> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
     try {
       // creating invoice
       byte[] data = jasperService.generateReport(invoiceDto);
+
+      var response = data != null ? "Invoice created, " : "Fail to create Invoice";
 
       HttpHeaders headers = new HttpHeaders();
       headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
@@ -142,7 +170,7 @@ public class InvoiceController {
 
       log.info(result);
 
-      return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
+      return new ResponseEntity<>(response + result, HttpStatus.OK);
 
     } catch (FileNotFoundException | JRException e) {
       e.printStackTrace();
