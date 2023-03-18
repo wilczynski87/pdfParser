@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jfree.util.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -24,11 +21,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 @Slf4j
 @Service
@@ -61,12 +54,11 @@ public class JasperService {
 			// Export the report to a PDF file
 			JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
 
-			System.out.println("PDF File Generated !!");
+			log.info("PDF File Generated !!");
 			// from working mail
-			// JasperExportManager.exportReportToPdfFile(jasperPrint, filePath + fileName + fileFormatPDF);
 			return JasperExportManager.exportReportToPdf(jasperPrint);
 		} catch (RuntimeException e) {
-            System.out.println("Exceptuin " + e);
+            log.error("Exceptuin " + e);
         }
         return new byte[0];
 	}

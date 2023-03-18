@@ -69,7 +69,6 @@ public class InvoiceController {
   public ResponseEntity<byte[]> requestInvoices(@PathVariable("nip") String nip) {
     var invoice = invoiceService.chooseInvoice(getInvoice(nip, invoiceService.getCurrentMonth(null), invoiceService.getCurrentYear(null)));
     try {
-      // jasperService.generateReport(invoice);
 
       byte[] data = jasperService.generateReport(invoice);
 
@@ -79,7 +78,6 @@ public class InvoiceController {
       return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
 
     } catch (FileNotFoundException | JRException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     log.error("Request success, invoice nr: {}", invoice.getNumber());
@@ -88,7 +86,7 @@ public class InvoiceController {
 
   @GetMapping("/getInvoiceById/{id}")
   public ResponseEntity<InvoiceDto> requestInvoiceById(@PathVariable("id") Long id) {
-    System.out.println(String.valueOf( "id: " + id));
+    log.info(String.valueOf( "id: " + id));
 
     String resourceUrl = "http://localhost:8081/getInvoiceById/" + id;
 
@@ -115,40 +113,11 @@ public class InvoiceController {
 
     RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<String> response
-      = restTemplate.getForEntity(uri, String.class);
+    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
     
-    String productsJson = response.getBody();
     
-    return productsJson;
+    return response.getBody();
   }
-
-  // todo main controller to getting invoice data + generate invoice pdf + send invoice to Client
-  // @PostMapping("/sendInvoice")
-  // public ResponseEntity<byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
-  //   try {
-  //     // creating invoice
-  //     byte[] data = jasperService.generateReport(invoiceDto);
-
-  //     HttpHeaders headers = new HttpHeaders();
-  //     headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
-
-  //     var emailDetails = new EmailDetails();
-  //     emailDetails.setRecipient(invoiceDto.getClient().getEmail());
-  //     emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
-  //     emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
-  //     emailDetails.setAttachmentByte(data);
-  //     var result = emailService.sendMailWithAttachment(emailDetails);
-
-  //     log.info(result);
-
-  //     return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(data);
-
-  //   } catch (FileNotFoundException | JRException e) {
-  //     e.printStackTrace();
-  //     throw new RuntimeException("Mail have not been send, exception in " + e);
-  //   }
-  // }
 
   @PostMapping("/sendInvoice")
   public ResponseEntity<String> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
