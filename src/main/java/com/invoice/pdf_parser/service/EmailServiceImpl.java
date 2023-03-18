@@ -46,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
  
             // Sending the mail
             javaMailSender.send(mimeMessage);
-            return "Mail sent Successfully";
+            return "Mail sent successfully";
         }
  
         // Catch block to handle MessagingException
