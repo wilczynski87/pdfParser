@@ -24,10 +24,8 @@ import com.invoice.pdf_parser.service.EmailService;
 import com.invoice.pdf_parser.service.InvoiceService;
 import com.invoice.pdf_parser.service.JasperService;
 
-import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 
-@Slf4j
 @RestController
 public class InvoiceController {
 
@@ -40,12 +38,12 @@ public class InvoiceController {
   @Autowired
   EmailService emailService;
 
-  private record invoiceNip(String nip, Long month, Long year) {
+  private record InvoiceNip(String nip, Long month, Long year) {
   }
 
   public List<InvoiceDto> getInvoice(String nip, Long month, Long year) {
 
-    log.info("get Invoice by NIP: {}", nip);
+    // log.info("get Invoice by NIP: {}", nip);
 
     final String uri= "http://localhost:8081/getInvoices";
 
@@ -54,14 +52,14 @@ public class InvoiceController {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<invoiceNip> entity = new HttpEntity<>(new invoiceNip(nip, invoiceService.getCurrentMonth(month), invoiceService.getCurrentYear(year)), headers);
+    HttpEntity<InvoiceNip> entity = new HttpEntity<>(new InvoiceNip(nip, invoiceService.getCurrentMonth(month), invoiceService.getCurrentYear(year)), headers);
 
     ResponseEntity<List<InvoiceDto>> response = restTemplate.exchange(
       uri, HttpMethod.POST, entity, new ParameterizedTypeReference<List<InvoiceDto>>(){});
 
     List<InvoiceDto> invoiceList = response.getBody();
 
-    log.info("Exiting getting invoices");
+    // log.info("Exiting getting invoices");
     return invoiceList;
   }
 
@@ -80,13 +78,13 @@ public class InvoiceController {
     } catch (FileNotFoundException | JRException e) {
       e.printStackTrace();
     }
-    log.error("Request success, invoice nr: {}", invoice.getNumber());
+    // log.error("Request success, invoice nr: {}", invoice.getNumber());
     return  null;
   }
 
   @GetMapping("/getInvoiceById/{id}")
   public ResponseEntity<InvoiceDto> requestInvoiceById(@PathVariable("id") Long id) {
-    log.info(String.valueOf( "id: " + id));
+    // log.info(String.valueOf( "id: " + id));
 
     String resourceUrl = "http://localhost:8081/getInvoiceById/" + id;
 
@@ -107,7 +105,7 @@ public class InvoiceController {
       return " On month: " + month + ", year: " + year + " there was: " + result + " invoices.";
   }
   public String getInvoiceCounter(String month, String year) {
-    log.info("Starting getInvoiceCounter");
+    // log.info("Starting getInvoiceCounter");
 
     final String uri= "http://localhost:8081/countInvoices/" + month + "/" + year;
 
@@ -137,7 +135,7 @@ public class InvoiceController {
       emailDetails.setAttachmentByte(data);
       var result = emailService.sendMailWithAttachment(emailDetails);
 
-      log.info(result);
+      // log.info(result);
 
       return new ResponseEntity<>(response + result, HttpStatus.OK);
 

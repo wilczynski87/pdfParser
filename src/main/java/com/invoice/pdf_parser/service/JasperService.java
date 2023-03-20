@@ -13,7 +13,6 @@ import org.springframework.util.ResourceUtils;
 import com.invoice.pdf_parser.data.InvoiceDto;
 import com.invoice.pdf_parser.pdf_mapper.PdfMapper;
 
-import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -23,7 +22,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRSaver;
 
-@Slf4j
 @Service
 public class JasperService {
 
@@ -54,11 +52,11 @@ public class JasperService {
 			// Export the report to a PDF file
 			JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
 
-			log.info("PDF File Generated !!");
+			// log.info("PDF File Generated !!");
 			// from working mail
 			return JasperExportManager.exportReportToPdf(jasperPrint);
 		} catch (RuntimeException e) {
-            log.error("Exceptuin " + e);
+            // log.error("Exceptuin " + e);
         }
         return new byte[0];
 	}
@@ -87,14 +85,15 @@ public class JasperService {
 			// Fill the report
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, source);
 			// Export the report to a PDF file
-			JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
+			// JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
 
-			log.info("PDF File Generated");
+			// log.info("PDF File Generated");
+			System.out.println("PDF File Generated");
 
 			return JasperExportManager.exportReportToPdf(jasperPrint);
 			
 		} catch (RuntimeException e) {
-            log.error("Exceptuin " + e);
+            // log.error("Exceptuin " + e);
         }
 		return new byte[0];
 	}
