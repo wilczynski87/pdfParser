@@ -120,40 +120,11 @@ public class InvoiceController {
     return response.getBody();
   }
 
-  @PostMapping("/sendInvoice")
-  public ResponseEntity<String> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
-    try {
-      // creating invoice
-      byte[] data = jasperService.generateReport(invoiceDto);
-
-      var response = data != null ? "Invoice created, " : "Fail to create Invoice";
-
-      HttpHeaders headers = new HttpHeaders();
-      headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
-
-      var emailDetails = new EmailDetails();
-      emailDetails.setRecipient(invoiceDto.getClient().getEmail());
-      emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
-      emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
-      emailDetails.setAttachmentByte(data);
-      var result = emailService.sendMailWithAttachment(emailDetails);
-
-      // log.info(result);
-
-      return new ResponseEntity<>(response + result, HttpStatus.OK);
-
-    } catch (FileNotFoundException | JRException e) {
-      e.printStackTrace();
-      throw new RuntimeException("Mail have not been send, exception in " + e);
-    }
-  }
-
   // @PostMapping("/sendInvoice")
-  // public ResponseEntity<Byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
+  // public ResponseEntity<String> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
   //   try {
   //     // creating invoice
-  //     // byte[] data = jasperService.generateReportToOutputStream(invoiceDto);
-  //     var data = jasperService.generateReportToOutputStream(invoiceDto);
+  //     byte[] data = jasperService.generateReport(invoiceDto);
 
   //     var response = data != null ? "Invoice created, " : "Fail to create Invoice";
 
@@ -164,17 +135,46 @@ public class InvoiceController {
   //     emailDetails.setRecipient(invoiceDto.getClient().getEmail());
   //     emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
   //     emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
-  //     // emailDetails.setAttachmentByte(data);
-  //     // var result = emailService.sendMailWithAttachment(emailDetails);
+  //     emailDetails.setAttachmentByte(data);
+  //     var result = emailService.sendMailWithAttachment(emailDetails);
 
   //     // log.info(result);
 
-  //     return new ResponseEntity(data, HttpStatus.OK);
+  //     return new ResponseEntity<>(response + result, HttpStatus.OK);
 
   //   } catch (FileNotFoundException | JRException e) {
   //     e.printStackTrace();
   //     throw new RuntimeException("Mail have not been send, exception in " + e);
   //   }
   // }
+
+  @PostMapping("/sendInvoice")
+  public ResponseEntity<Byte[]> sendInvoice(@RequestBody InvoiceDto invoiceDto) {
+    try {
+      // creating invoice
+      // byte[] data = jasperService.generateReportToOutputStream(invoiceDto);
+      var data = jasperService.generateReportToOutputStream(invoiceDto);
+
+      var response = data != null ? "Invoice created, " : "Fail to create Invoice";
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=people.pdf");
+
+      var emailDetails = new EmailDetails();
+      emailDetails.setRecipient(invoiceDto.getClient().getEmail());
+      emailDetails.setMsgBody("Witam \nPrzesyłam fakturkę w załączniku. \nPozdrawiam \nKarol Wilczyński");
+      emailDetails.setSubject("Fakturka, plac przy Ostrowskiego 102");
+      // emailDetails.setAttachmentByte(data);
+      // var result = emailService.sendMailWithAttachment(emailDetails);
+
+      // log.info(result);
+
+      return new ResponseEntity(data, HttpStatus.OK);
+
+    } catch (FileNotFoundException | JRException e) {
+      e.printStackTrace();
+      throw new RuntimeException("Mail have not been send, exception in " + e);
+    }
+  }
     
 }

@@ -35,7 +35,7 @@ public class JasperService {
 
 		try {
 			// File file = ResourceUtils.getFile("classpath:InvoiceComplete.jrxml");
-			File file = ResourceUtils.getFile("classpath:Invoice.jrxml");
+			File file = ResourceUtils.getFile("classpath:Invoice2.jrxml");
 			InputStream input = new FileInputStream(file);
 			
 			// Compile the Jasper report from .jrxml to .japser
@@ -71,8 +71,7 @@ public class JasperService {
 	public byte[] generateReportToOutputStream(InvoiceDto invoiceDto) throws JRException, FileNotFoundException {
 
 		try {
-			// File file = ResourceUtils.getFile("classpath:InvoiceComplete.jrxml");
-			File file = ResourceUtils.getFile("classpath:Invoice.jrxml");
+			File file = ResourceUtils.getFile("classpath:Invoice2.jrxml");
 			InputStream input = new FileInputStream(file);
 
 			// String fileSavePath = "src.main.resources.";
@@ -93,7 +92,7 @@ public class JasperService {
 			// Fill the report
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, source);
 			// Export the report to a PDF file
-			JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\report.pdf");
+			// JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\Empployee.pdf");
 
 			// log.info("PDF File Generated");
 			System.out.println("PDF File Generated");

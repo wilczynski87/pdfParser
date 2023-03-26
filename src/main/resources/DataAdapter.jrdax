@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beanDataAdapter class="net.sf.jasperreports.data.bean.BeanDataAdapterImpl">
+  <name>New Data Adapter 1</name>
+  <classpath>C:\Users\wilcz\OneDrive\Documents\VCS Projects\pdfParser\target\pdfParser-0.0.1-SNAPSHOT.jar</classpath>
+  <factoryClass>com.jaspersoft.studio.data.sample.SampleJRDataSourceFactory</factoryClass>
+  <methodName>genereateCollection</methodName>
+  <useFieldDescription>false</useFieldDescription>
+</beanDataAdapter>
