@@ -8,7 +8,7 @@ public class PdfParserApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PdfParserApplication.class, args);
-		// log.info("\n\nApp 'PdfParser' has started :-)\n");
+		System.out.println("\n\nApp 'PdfParser' has started :-)\n");
 	}
 
 }
